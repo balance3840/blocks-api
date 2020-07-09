@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Stage extends Model
 {
     /**
      * The attributes that are mass assignable.

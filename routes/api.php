@@ -21,13 +21,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('roles')->group(function () {
     Route::get('/', 'RoleController@index');
     Route::post('/', 'RoleController@create');
-    Route::get('/{role}', 'RoleController@show');
-    Route::put('/{role}', 'RoleController@update');
+    Route::get('/{id}', 'RoleController@show');
+    Route::put('/{id}', 'RoleController@update');
 });
 
 Route::prefix('statuses')->group(function () {
     Route::get('/', 'StatusController@index');
     Route::post('/', 'StatusController@create');
-    Route::get('/{status}', 'StatusController@show');
-    Route::put('/{status}', 'StatusController@update');
+    Route::get('/{id}', 'StatusController@show');
+    Route::put('/{id}', 'StatusController@update');
+});
+
+Route::prefix('stages')->group(function () {
+    Route::get('/', 'StageController@index');
+    Route::post('/', 'StageController@create');
+    Route::get('/{id}', 'StageController@show');
+    Route::put('/{id}', 'StageController@update');
 });
