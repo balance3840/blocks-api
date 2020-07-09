@@ -6,14 +6,12 @@ namespace App\Traits\Validators;
 
 use Illuminate\Support\Facades\Validator;
 
-Trait RoleValidator
+trait RoleValidator
 {
-    public String $roleValidatorMessage = "Name is required";
-
-    public static function validateRole(array $params) {
-        $validator = Validator::make($params, [
+    public static function validateRole(array $params)
+    {
+        return Validator::make($params, [
             'name' => 'required|max:255',
         ]);
-        return $validator;
     }
 }

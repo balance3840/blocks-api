@@ -6,10 +6,10 @@ namespace App\Traits;
 
 use Illuminate\Http\Response;
 
-Trait CustomResponse
+trait CustomResponse
 {
 
-    public static function responseError(String $message, int $code = 400) : Response
+    public static function responseError(string $message, int $code = 400): Response
     {
         return response([
             'message' => $message,
@@ -18,7 +18,7 @@ Trait CustomResponse
             ->header('Content-Type', 'application/json');
     }
 
-    public static function responseSuccess(object $data, int $code = 200) : Response
+    public static function responseSuccess(object $data, int $code = 200): Response
     {
         return response([
             'data' => $data,
