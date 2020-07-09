@@ -6,7 +6,6 @@ use App\Role;
 use App\Traits\Validators\RoleValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {

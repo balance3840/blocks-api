@@ -24,3 +24,10 @@ Route::prefix('roles')->group(function () {
     Route::get('/{role}', 'RoleController@show');
     Route::put('/{role}', 'RoleController@update');
 });
+
+Route::prefix('statuses')->group(function () {
+    Route::get('/', 'StatusController@index');
+    Route::post('/', 'StatusController@create');
+    Route::get('/{status}', 'StatusController@show');
+    Route::put('/{status}', 'StatusController@update');
+});
