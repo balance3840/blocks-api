@@ -22,7 +22,7 @@ class StageController extends Controller
     public function show(int $id) {
         $stage = Stage::where('id', $id)->first();
         if(!$stage) {
-            return $this->responseError($this->notFoundMessage);
+            return $this->responseError($this->notFoundMessage, 404);
         }
         return $this->responseSuccess($stage);
     }
@@ -54,7 +54,7 @@ class StageController extends Controller
         $stage = Stage::where('id', $id)->first();
 
         if(!$stage) {
-            return $this->responseError($this->notFoundMessage);
+            return $this->responseError($this->notFoundMessage, 404);
         }
 
         $validator = $this->validateStage($request->all());

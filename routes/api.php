@@ -38,3 +38,10 @@ Route::prefix('stages')->group(function () {
     Route::get('/{id}', 'StageController@show');
     Route::put('/{id}', 'StageController@update');
 });
+
+Route::prefix('institutes')->group(function () {
+    Route::get('/', 'InstituteController@index');
+    Route::post('/', 'InstituteController@create');
+    Route::get('/{id}', 'InstituteController@show');
+    Route::put('/{id}', 'InstituteController@update');
+});

@@ -22,7 +22,7 @@ class StatusController extends Controller
     public function show(int $id) {
         $status = Status::where('id', $id)->first();
         if(!$status) {
-            return $this->responseError($this->notFoundMessage);
+            return $this->responseError($this->notFoundMessage, 404);
         }
         return $this->responseSuccess($status);
     }
@@ -54,7 +54,7 @@ class StatusController extends Controller
         $status = Status::where('id', $id)->first();
 
         if(!$status) {
-            return $this->responseError($this->notFoundMessage);
+            return $this->responseError($this->notFoundMessage, 404);
         }
 
         $validator = $this->validateStatus($request->all());

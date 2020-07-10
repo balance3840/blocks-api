@@ -22,7 +22,7 @@ class RoleController extends Controller
     public function show(int $id) {
         $role = Role::where('id', $id)->first();
         if(!$role) {
-            return $this->responseError($this->notFoundMessage);
+            return $this->responseError($this->notFoundMessage, 404);
         }
         return $this->responseSuccess($role);
     }
@@ -54,7 +54,7 @@ class RoleController extends Controller
         $role = Role::where('id', $id)->first();
 
         if(!$role) {
-            return $this->responseError($this->notFoundMessage);
+            return $this->responseError($this->notFoundMessage, 404);
         }
 
         $validator = $this->validateRole($request->all());
