@@ -52,3 +52,10 @@ Route::prefix('groups')->group(function () {
     Route::get('/{id}', 'GroupController@show');
     Route::put('/{id}', 'GroupController@update');
 });
+
+Route::prefix('tasks')->group(function () {
+    Route::get('/', 'TaskController@index');
+    Route::post('/', 'TaskController@create');
+    Route::get('/{id}', 'TaskController@show');
+    Route::put('/{id}', 'TaskController@update');
+});
