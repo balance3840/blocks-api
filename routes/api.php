@@ -45,3 +45,10 @@ Route::prefix('institutes')->group(function () {
     Route::get('/{id}', 'InstituteController@show');
     Route::put('/{id}', 'InstituteController@update');
 });
+
+Route::prefix('groups')->group(function () {
+    Route::get('/', 'GroupController@index');
+    Route::post('/', 'GroupController@create');
+    Route::get('/{id}', 'GroupController@show');
+    Route::put('/{id}', 'GroupController@update');
+});
