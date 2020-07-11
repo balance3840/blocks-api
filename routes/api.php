@@ -59,3 +59,10 @@ Route::prefix('tasks')->group(function () {
     Route::get('/{id}', 'TaskController@show');
     Route::put('/{id}', 'TaskController@update');
 });
+
+Route::prefix('users')->group(function () {
+    Route::get('/', 'UserController@index');
+    Route::post('/', 'UserController@create');
+    Route::get('/{id}', 'UserController@show');
+    Route::put('/{id}', 'UserController@update');
+});
