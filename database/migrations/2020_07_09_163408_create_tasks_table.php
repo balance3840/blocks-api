@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();;
             $table->foreignId('group_id')->constrained();
-            $table->foreignId('status_id')->constrained('status');
+            $table->foreignId('status_id')->constrained();
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
         });
