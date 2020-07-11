@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CustomHash;
 use App\User;
+use App\Helpers\CustomHash;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Log;
 use App\Traits\Validators\UserValidator;
 
@@ -96,4 +97,28 @@ class UserController extends Controller
 
         return $this->responseSuccess($user);
     }
+
+    public function login(Request $request) {
+        
+        $email = $request->get('email');
+        $password = $request->get('password');
+
+        $user = User::where('email', $email)->first();
+
+        if(!$user) {
+            return $this->responseError($this->notFoundMessage, 404);
+        }
+
+        if(!CustomHash::check($password, $user->password)) {
+            $this->responseError("Credentials do not match.");
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        $tokenDetails = ['token' => $token, 'token_type' => 'Bearer'];
+
+        return $this->responseSuccess($tokenDetails, 200);
+
+    }
+
 }
