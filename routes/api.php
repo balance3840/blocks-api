@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', 'UserController@login');
+Route::post('/login', 'UserController@login')->name('login');
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -67,7 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', 'UserController@index');
         Route::post('/', 'UserController@create');
-        Route::get('/{id}', 'UserController@show')->name('login');
+        Route::get('/{id}', 'UserController@show');
         Route::put('/{id}', 'UserController@update');
     });
 

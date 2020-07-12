@@ -110,14 +110,14 @@ class UserController extends Controller
         }
 
         if(!CustomHash::check($password, $user->password)) {
-            $this->responseError("Credentials do not match.");
+            return $this->responseError("Credentials do not match.", 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        $tokenDetails = ['token' => $token, 'token_type' => 'Bearer'];
+        $data = ['user' => $user, 'token' => $token, 'token_type' => 'Bearer'];
 
-        return $this->responseSuccess($tokenDetails, 200);
+        return $this->responseSuccess($data, 200);
 
     }
 
