@@ -19,14 +19,12 @@ class UserController extends Controller
 
     public function index()
     {
-        return User::with('stage')
-            ->paginate();
+        return User::paginate();
     }
 
     public function show(int $id) {
 
         $user = User::where('id', $id)
-            ->with('stage')
             ->first();
 
         if(!$user) {
