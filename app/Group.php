@@ -28,7 +28,7 @@ class Group extends Model
      */
     public function stage()
     {
-        return $this->hasOne('App\Stage', 'id');
+        return $this->hasOne('App\Stage', 'id', 'stage_id');
     }
 
 }
