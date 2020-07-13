@@ -17,6 +17,7 @@ class GroupController extends Controller
     public function index()
     {
         return Group::with('stage')
+            ->orderBy('id', 'desc')
             ->paginate();
     }
 
@@ -31,6 +32,14 @@ class GroupController extends Controller
         }
 
         return $this->responseSuccess($group);
+    }
+
+    public function showMembers(int $id) {
+
+        $members = Group::find($id)->members()->get();
+
+        return $this->responseSuccess($members);
+
     }
 
     public function create(Request $request)

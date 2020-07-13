@@ -31,4 +31,8 @@ class Group extends Model
         return $this->hasOne('App\Stage', 'id', 'stage_id');
     }
 
+    public function members() {
+        return $this->belongsToMany('App\User', 'user_groups', 'user_id', 'group_id');
+    }
+
 }
