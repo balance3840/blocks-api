@@ -35,4 +35,8 @@ class Group extends Model
         return $this->belongsToMany('App\User', 'user_groups', 'user_id', 'group_id');
     }
 
+    public function tasks() {
+        return $this->hasMany('App\Task', 'group_id', 'id');
+    }
+
 }

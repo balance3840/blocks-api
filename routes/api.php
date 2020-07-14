@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', 'GroupController@show');
         Route::put('/{id}', 'GroupController@update');
         Route::get('/{id}/members', 'GroupController@showMembers');
+        Route::get('/{id}/tasks', 'GroupController@showTasks');
     });
 
     Route::prefix('tasks')->group(function () {

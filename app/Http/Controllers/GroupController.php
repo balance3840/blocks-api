@@ -42,6 +42,14 @@ class GroupController extends Controller
 
     }
 
+    public function showTasks(int $id) {
+
+        $tasks = Group::find($id)->tasks()->orderBy('id', 'desc')->get();
+
+        return $this->responseSuccess($tasks);
+
+    }
+
     public function create(Request $request)
     {
         $validator = $this->validateGroup($request->all());
