@@ -28,7 +28,7 @@ class Task extends Model
      */
     public function group()
     {
-        return $this->hasOne('App\Group', 'id');
+        return $this->hasOne('App\Group', 'id', 'group_id');
     }
 
 

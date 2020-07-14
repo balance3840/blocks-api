@@ -17,6 +17,7 @@ class TaskController extends Controller
     public function index()
     {
         return Task::with(['group', 'status'])
+            ->orderBy('id', 'desc')
             ->paginate();
     }
 
