@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model
 {
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,7 +33,7 @@ class Group extends Model
     }
 
     public function members() {
-        return $this->belongsToMany('App\User', 'user_groups', 'user_id', 'group_id');
+        return $this->belongsToMany('App\User', 'user_groups', 'group_id', 'user_id');
     }
 
     public function tasks() {
