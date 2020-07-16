@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\UserGroup;
 use App\Traits\Validators\GroupValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -107,5 +108,27 @@ class GroupController extends Controller
         }
 
         return $this->responseSuccess($group);
+    }
+
+    public function addMembers(int $group, Request $request) {
+        $users = $request->input('users');
+        foreach ($users as $user) {
+            UserGroup::where('user_id', $user)
+                ->where('group_id', $group)
+                ->delete();
+            $users_groups[] = [
+                'user_id' => $user,
+                'group_id' => $group,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]; 
+        }
+        try {
+            UserGroup::insert($users_groups);
+            return $this->responseSuccess([$users_groups], 200);
+        } catch(\Exception $e) {
+            Log::error($e);
+            return $this->responseError('There was a problem adding the users', 500);
+        }
     }
 }
