@@ -100,6 +100,7 @@ class UserController extends Controller
         
         $email = $request->get('email');
         $password = $request->get('password');
+        $tokenAbilities = [];
 
         $user = User::where('email', $email)->first();
 
@@ -111,7 +112,42 @@ class UserController extends Controller
             return $this->responseError("Credentials do not match.", 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        if($user->role->id === 1) {
+            array_push($tokenAbilities, ...[
+                //user
+                'user:create', 
+                'user:mine:list',
+                'user:mine:view', 
+                'user:mine:edit', 
+                'user:mine:delete',
+                'user:others:list',
+                'user:others:view', 
+                'user:others:edit', 
+                'user:others:delete',
+                //group
+                'group:create',
+                'group:mine:list',
+                'group:mine:view',
+                'group:mine:edit',
+                'group:mine:delete',
+                'group:others:list',
+                'group:others:view',
+                'group:others:edit',
+                'group:others:delete',
+                //task
+                'task:create',
+                'task:mine:list',
+                'task:mine:view',
+                'task:mine:edit',
+                'task:mine:delete',
+                'task:others:list',
+                'task:others:view',
+                'task:others:edit',
+                'task:others:delete'
+            ]);
+        }
+
+        $token = $user->createToken('auth_token', $tokenAbilities)->plainTextToken;
 
         $data = ['user' => $user, 'token' => $token, 'token_type' => 'Bearer'];
 
