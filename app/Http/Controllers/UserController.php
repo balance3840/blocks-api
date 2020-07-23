@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Enums\UserEnum;
 use App\Helpers\CustomHash;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Traits\Validators\UserValidator;
 
 class UserController extends Controller
@@ -15,59 +17,89 @@ class UserController extends Controller
 
     private String $validatorMessage = "Name, lastname, role_id and institute_id are required.";
     private String $validatorCreateMessage = "Name, lastname, email, password, role_id and institute_id are required.";
-    private String $notFoundMessage = "The requested user does not exist";
+    private String $notFoundMessage = "The requested user does not exist.";
+    private String $notPermissions = "This user does not have the permissions to perform the requested action.";
 
     public function index()
     {
-        return User::paginate();
+        $user = Auth::user();
+        if ($user->tokenCan('user:others:list')) {
+            return User::paginate();
+        }
+        return $this->responseError($this->notPermissions, 403);
     }
 
     public function show(int $id) {
 
-        $user = User::where('id', $id)
-            ->first();
+        $authUser = Auth::user();
 
-        if(!$user) {
-            return $this->responseError($this->notFoundMessage, 404);
+        if($authUser->tokenCan('user:mine:view') || $authUser->tokenCan('user:others:view')) {
+
+            $user = User::where('id', $id)->first();
+
+            if(!$user) {
+                return $this->responseError($this->notFoundMessage, 404);
+            }
+    
+            return $this->responseSuccess($user);
         }
 
-        return $this->responseSuccess($user);
+        return $this->responseError($this->notPermissions, 403);
+
     }
 
     public function create(Request $request)
     {
-        $validator = $this->validateUserCreate($request->all());
+        $authUser = Auth::user();
 
-        if ($validator->fails()) {
-            return $this->responseError($this->validatorCreateMessage);
+        if($authUser->tokenCan('user:create')) {
+
+            $validator = $this->validateUserCreate($request->all());
+
+            if ($validator->fails()) {
+                return $this->responseError($this->validatorCreateMessage);
+            }
+    
+            $password = CustomHash::make($request->get('password'));
+    
+            $user = new User;
+            $user->name = $request->get('name');
+            $user->lastname = $request->get('lastname');
+            $user->email = $request->get('email');
+            $user->password = $password;
+            $user->role_id = $request->get('role_id');
+            $user->institute_id = $request->get('institute_id');
+            $user->created_by = $user->id;
+    
+            try {
+                $user->save();
+            } catch (\Exception $e) {
+                Log::error("Error creating user. ".$e);
+                return $this->responseError("There was an error creating the user", 500);
+            }
+    
+            return $this->responseSuccess($user, 201);
         }
 
-        $password = CustomHash::make($request->get('password'));
+        return $this->responseError($this->notPermissions, 403);
 
-        $user = new User;
-        $user->name = $request->get('name');
-        $user->lastname = $request->get('lastname');
-        $user->email = $request->get('email');
-        $user->password = $password;
-        $user->role_id = $request->get('role_id');
-        $user->institute_id = $request->get('institute_id');
-
-        try {
-            $user->save();
-        } catch (\Exception $e) {
-            Log::error("Error creating user. ".$e);
-            return $this->responseError("There was an error creating the user", 500);
-        }
-
-        return $this->responseSuccess($user, 201);
     }
 
     public function update(int $id, Request $request) {
 
         $user = User::where('id', $id)->first();
+        $authUser = Auth::user();
 
         if(!$user) {
             return $this->responseError($this->notFoundMessage, 404);
+        }
+
+        if( ($user->id === $authUser->id) && !$authUser->tokenCan('user:mine:edit')) {
+            return $this->responseError($this->notPermissions, 403);
+        }
+
+        if( ($user->id !== $authUser->id) && !$authUser->tokenCan('user:others:edit')) {
+            return $this->responseError($this->notPermissions, 403);
         }
 
         $validator = $this->validateUser($request->all());
@@ -100,7 +132,7 @@ class UserController extends Controller
         
         $email = $request->get('email');
         $password = $request->get('password');
-        $tokenAbilities = [];
+        $tokenAbilities = UserEnum::STUDENT_ABILITIES();
 
         $user = User::where('email', $email)->first();
 
@@ -112,39 +144,12 @@ class UserController extends Controller
             return $this->responseError("Credentials do not match.", 401);
         }
 
-        if($user->role->id === 1) {
-            array_push($tokenAbilities, ...[
-                //user
-                'user:create', 
-                'user:mine:list',
-                'user:mine:view', 
-                'user:mine:edit', 
-                'user:mine:delete',
-                'user:others:list',
-                'user:others:view', 
-                'user:others:edit', 
-                'user:others:delete',
-                //group
-                'group:create',
-                'group:mine:list',
-                'group:mine:view',
-                'group:mine:edit',
-                'group:mine:delete',
-                'group:others:list',
-                'group:others:view',
-                'group:others:edit',
-                'group:others:delete',
-                //task
-                'task:create',
-                'task:mine:list',
-                'task:mine:view',
-                'task:mine:edit',
-                'task:mine:delete',
-                'task:others:list',
-                'task:others:view',
-                'task:others:edit',
-                'task:others:delete'
-            ]);
+        if($user->role->id === UserEnum::ADMIN()) {
+            $tokenAbilities = UserEnum::ADMIN_ABILITIES();
+        }
+
+        if($user->role->id === UserEnum::TEACHER()) {
+            $tokenAbilities = UserEnum::TEACHER_ABILITIES();
         }
 
         $token = $user->createToken('auth_token', $tokenAbilities)->plainTextToken;
