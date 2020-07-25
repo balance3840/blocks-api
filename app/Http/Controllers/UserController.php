@@ -32,19 +32,21 @@ class UserController extends Controller
     public function show(int $id) {
 
         $authUser = Auth::user();
+        $user = User::where('id', $id)->first();
 
-        if($authUser->tokenCan('user:mine:view') || $authUser->tokenCan('user:others:view')) {
-
-            $user = User::where('id', $id)->first();
-
-            if(!$user) {
-                return $this->responseError($this->notFoundMessage, 404);
-            }
-    
-            return $this->responseSuccess($user);
+        if(!$user) {
+            return $this->responseError($this->notFoundMessage, 404);
         }
 
-        return $this->responseError($this->notPermissions, 403);
+        if(($user->id === $authUser->id) && !$authUser->tokenCan('user:mine:view')) {
+            return $this->responseError($this->notPermissions, 403);
+        }
+
+        if(($user->id !== $authUser->id) && !$authUser->tokenCan('user:others:view')) {
+            return $this->responseError($this->notPermissions, 403);
+        }
+
+        return $this->responseSuccess($user);
 
     }
 
@@ -59,9 +61,9 @@ class UserController extends Controller
             if ($validator->fails()) {
                 return $this->responseError($this->validatorCreateMessage);
             }
-    
+
             $password = CustomHash::make($request->get('password'));
-    
+
             $user = new User;
             $user->name = $request->get('name');
             $user->lastname = $request->get('lastname');
@@ -70,14 +72,14 @@ class UserController extends Controller
             $user->role_id = $request->get('role_id');
             $user->institute_id = $request->get('institute_id');
             $user->created_by = $user->id;
-    
+
             try {
                 $user->save();
             } catch (\Exception $e) {
                 Log::error("Error creating user. ".$e);
                 return $this->responseError("There was an error creating the user", 500);
             }
-    
+
             return $this->responseSuccess($user, 201);
         }
 
@@ -129,7 +131,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request) {
-        
+
         $email = $request->get('email');
         $password = $request->get('password');
         $tokenAbilities = UserEnum::STUDENT_ABILITIES();
