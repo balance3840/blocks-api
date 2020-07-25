@@ -8,14 +8,14 @@ class UserEnum extends Enum {
 
     private const ADMIN_ABILITIES = [
         //user
-        'user:create', 
+        'user:create',
         'user:mine:list',
-        'user:mine:view', 
-        'user:mine:edit', 
+        'user:mine:view',
+        'user:mine:edit',
         'user:mine:delete',
         'user:others:list',
-        'user:others:view', 
-        'user:others:edit', 
+        'user:others:view',
+        'user:others:edit',
         'user:others:delete',
         //group
         'group:create',
@@ -23,10 +23,16 @@ class UserEnum extends Enum {
         'group:mine:view',
         'group:mine:edit',
         'group:mine:delete',
+        'group:members:list',
+        'group:tasks:list',
         'group:others:list',
         'group:others:view',
         'group:others:edit',
+        'group:members:add',
         'group:others:delete',
+        'group:others:members:list',
+        'group:others:tasks:list',
+        'group:others:members:add',
         //task
         'task:create',
         'task:mine:list',
@@ -41,10 +47,10 @@ class UserEnum extends Enum {
 
     private const TEACHER_ABILITIES = [
         //user
-        'user:create', 
+        'user:create',
         'user:mine:list',
-        'user:mine:view', 
-        'user:mine:edit', 
+        'user:mine:view',
+        'user:mine:edit',
         'user:mine:delete',
         //group
         'group:create',
@@ -52,6 +58,9 @@ class UserEnum extends Enum {
         'group:mine:view',
         'group:mine:edit',
         'group:mine:delete',
+        'group:members:list',
+        'group:members:add',
+        'group:tasks:list',
         //task
         'task:create',
         'task:mine:list',
@@ -66,6 +75,7 @@ class UserEnum extends Enum {
         //group
         'group:mine:list',
         'group:mine:view',
+        'group:tasks:list',
         //task
         'task:mine:list',
         'task:mine:view',
