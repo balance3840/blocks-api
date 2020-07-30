@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Task;
-use App\Traits\Validators\TaskValidator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Traits\Validators\TaskValidator;
+use Illuminate\Database\Eloquent\Builder;
 
 class TaskController extends Controller
 {
@@ -13,15 +15,50 @@ class TaskController extends Controller
 
     private String $validatorMessage = "Name, title, group_id and status_id are required";
     private String $notFoundMessage = "The requested task does not exist";
+    private String $notPermissions = "This user does not have the permissions to perform the requested action.";
 
-    public function index()
+    public function index(Request $request)
     {
+        $user = Auth::user();
+        $onlyMine = $request->get('onlyMine');
+
+        if($onlyMine) {
+            if(!$user->tokenCan('task:mine:list')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+            return Task::with(['group', 'status'])
+                ->whereHas('group.members', function(Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->orderBy('id', 'desc')
+                ->paginate();    
+        }
+
+        if(!$user->tokenCan('task:others:list')) {
+            return $this->responseError($this->notPermissions, 403);
+        }
+
         return Task::with(['group', 'status'])
             ->orderBy('id', 'desc')
             ->paginate();
     }
 
-    public function show(int $id) {
+    public function show(Request $request, int $id) {
+
+        $onlyMine = $request->get('onlyMine');
+
+        /* if($onlyMine) {
+            if(!$user->tokenCan('task:mine:view')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+            $task = Task::with(['group', 'status'])
+                ->whereHas('group.members', function(Builder $query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->first();    
+
+            return $this->responseSuccess($task);
+        } */
 
         $task = Task::where('id', $id)
             ->with(['group', 'status'])
@@ -36,6 +73,13 @@ class TaskController extends Controller
 
     public function create(Request $request)
     {
+
+        $user = Auth::user();
+
+        if(!$user->tokenCan('task:create')) {
+            return $this->responseError($this->notPermissions, 403);
+        }
+
         $validator = $this->validateTask($request->all());
 
         if ($validator->fails()) {
@@ -49,6 +93,7 @@ class TaskController extends Controller
         $task->group_id = $request->get('group_id');
         $task->status_id = $request->get('status_id');
         $task->completed_at = $request->get('completed_at');
+        $task->created_by = $user->id;
 
         try {
             $task->save();
@@ -62,7 +107,25 @@ class TaskController extends Controller
 
     public function update(int $id, Request $request) {
 
+        $user = Auth::user();
         $task = Task::where('id', $id)->first();
+        $mineTask = Task::where('id', $id)->where('created_by', $user->id)->first();
+        $onlyMine = $request->get('onlyMine');
+
+        if($onlyMine) {
+            if(!$user->tokenCan('task:mine:edit')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+            if($task && !$mineTask) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+            $task = $mineTask;
+        }
+        else {
+            if(!$user->tokenCan('task:others:list')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+        }
 
         if(!$task) {
             return $this->responseError($this->notFoundMessage, 404);

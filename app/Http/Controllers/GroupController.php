@@ -18,9 +18,22 @@ class GroupController extends Controller
     private String $notFoundMessage = "The requested group does not exist";
     private String $notPermissions = "This user does not have the permissions to perform the requested action.";
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $onlyMine = $request->get('onlyMine');
+
+        if($onlyMine) {
+            if(!$user->tokenCan('group:mine:list')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+            return Group::with('stage')
+            ->whereHas('members', function (Builder $query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->orderBy('id', 'desc')
+            ->paginate();
+        }
 
         if(!$user->tokenCan('group:others:list')) {
             return $this->responseError($this->notPermissions, 403);
@@ -144,6 +157,10 @@ class GroupController extends Controller
 
         try {
             $group->save();
+            $userGroup = new UserGroup;
+            $userGroup->user_id = $user->id;
+            $userGroup->group_id = $group->id;
+            $userGroup->save();
         } catch (\Exception $e) {
             Log::error("Error creating group. ".$e);
             return $this->responseError("There was an error creating the group", 500);
