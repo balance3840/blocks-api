@@ -20,9 +20,18 @@ class UserController extends Controller
     private String $notFoundMessage = "The requested user does not exist.";
     private String $notPermissions = "This user does not have the permissions to perform the requested action.";
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $onlyMine = $request->get('onlyMine');
+        
+        if($onlyMine) {
+            if(!$user->tokenCan('user:mine:list')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+            return User::where('created_by', $user->id)->paginate();
+        }
+
         if ($user->tokenCan('user:others:list')) {
             return User::paginate();
         }
@@ -38,12 +47,18 @@ class UserController extends Controller
             return $this->responseError($this->notFoundMessage, 404);
         }
 
-        if(($user->id === $authUser->id) && !$authUser->tokenCan('user:mine:view')) {
-            return $this->responseError($this->notPermissions, 403);
-        }
-
-        if(($user->id !== $authUser->id) && !$authUser->tokenCan('user:others:view')) {
-            return $this->responseError($this->notPermissions, 403);
+        if($user->created_by === $authUser->id) {
+            if(!$authUser->tokenCan('user:mine:view')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+        } elseif($user->id === $authUser->id) {
+            if(!$authUser->tokenCan('user:mine:view')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+        } else {
+            if(!$authUser->tokenCan('user:others:view')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
         }
 
         return $this->responseSuccess($user);
@@ -71,7 +86,7 @@ class UserController extends Controller
             $user->password = $password;
             $user->role_id = $request->get('role_id');
             $user->institute_id = $request->get('institute_id');
-            $user->created_by = $user->id;
+            $user->created_by = $authUser->id;
 
             try {
                 $user->save();
@@ -96,12 +111,18 @@ class UserController extends Controller
             return $this->responseError($this->notFoundMessage, 404);
         }
 
-        if( ($user->id === $authUser->id) && !$authUser->tokenCan('user:mine:edit')) {
-            return $this->responseError($this->notPermissions, 403);
-        }
-
-        if( ($user->id !== $authUser->id) && !$authUser->tokenCan('user:others:edit')) {
-            return $this->responseError($this->notPermissions, 403);
+        if($user->created_by === $authUser->id) {
+            if(!$authUser->tokenCan('user:mine:edit')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+        } elseif($user->id === $authUser->id) {
+            if(!$authUser->tokenCan('user:mine:edit')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
+        } else {
+            if(!$authUser->tokenCan('user:others:edit')) {
+                return $this->responseError($this->notPermissions, 403);
+            }
         }
 
         $validator = $this->validateUser($request->all());
