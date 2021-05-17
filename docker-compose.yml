@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    container_name: blocks-php
+    tty: true
+    working_dir: /var/www/blocks-api
+    volumes:
+      - ./:/var/www/blocks-api
+      - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - blocks-network
+
+  webserver:
+    image: nginx:1.20
+    container_name: blocks-webserver
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/blocks-api
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - blocks-network
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: blocks
+      MYSQL_ROOT_PASSWORD: abc123
+    volumes:
+      - /blocks-data/mysql:/var/lib/mysql/
+      - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - blocks-network
+
+networks: 
+    blocks-network:
