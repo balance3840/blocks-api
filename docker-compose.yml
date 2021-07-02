@@ -17,11 +17,10 @@ services:
 
   webserver:
     image: nginx:1.20
-    container_name: blocks-webserver
+    container_name: blocks-api-webserver
     tty: true
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     volumes:
       - ./:/var/www/blocks-api
       - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
@@ -30,18 +29,21 @@ services:
 
   db:
     image: mysql:5.7
-    container_name: db
+    container_name: blocks-db
     tty: true
     ports:
-      - "3306:3306"
+      - "33066:3306"
     environment:
       MYSQL_DATABASE: blocks
       MYSQL_ROOT_PASSWORD: abc123
     volumes:
-      - /blocks-data/mysql:/var/lib/mysql/
+      - blocks-data:/var/lib/mysql/
       - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - blocks-network
 
 networks: 
     blocks-network:
+
+volumes: 
+   blocks-data:
