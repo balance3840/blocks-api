@@ -27,7 +27,7 @@ class GroupController extends Controller
             if(!$user->tokenCan('group:mine:list')) {
                 return $this->responseError($this->notPermissions, 403);
             }
-            return Group::with('stage')
+            return Group::with(['stage', 'createdBy'])
             ->whereHas('members', function (Builder $query) use ($user) {
                 $query->where('user_id', $user->id);
             })
@@ -39,7 +39,7 @@ class GroupController extends Controller
             return $this->responseError($this->notPermissions, 403);
         }
 
-        return Group::with('stage')
+        return Group::with(['stage', 'createdBy'])
             ->orderBy('id', 'desc')
             ->paginate();
     }
@@ -55,7 +55,7 @@ class GroupController extends Controller
                 return $this->responseError($this->notPermissions, 403);
             }
             $group = Group::where('id', $id)
-                ->with('stage')
+                ->with(['stage', 'createdBy'])
                 ->whereHas('members', function (Builder $query) use($user) {
                     $query->where('user_id', $user->id);
                 })
@@ -65,7 +65,7 @@ class GroupController extends Controller
                 return $this->responseError($this->notPermissions, 403);
             }
             $group = Group::where('id', $id)
-                ->with('stage')
+                ->with(['stage', 'createdBy'])
                 ->first();
         }
 
@@ -154,6 +154,7 @@ class GroupController extends Controller
         $group->grade = $request->get('grade');
         $group->level = $request->get('level');
         $group->stage_id = $request->get('stage_id');
+        $group->created_by = $user->id;
 
         try {
             $group->save();

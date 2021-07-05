@@ -63,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('tasks')->group(function () {
         Route::get('/', 'TaskController@index');
         Route::post('/', 'TaskController@create');
+        Route::get('/my-students', 'TaskController@myStudentsTasks');
         Route::get('/{id}', 'TaskController@show');
         Route::put('/{id}', 'TaskController@update');
     });

@@ -17,10 +17,9 @@ class CreateTasksResultTable extends Migration
             $table->id();
             $table->foreignId('task_id')->constrained();
             $table->foreignId('user_id')->constrained();
-		    $table->string('video')->nullable();;
-            $table->string('comment')->nullable();
-            $table->foreignId('comment_user')->constrained('users');
-            $table->text('code');
+            $table->foreignId('status_id')->default(1)->constrained();
+		    $table->string('video')->nullable();
+            $table->text('code')->nullable();
             $table->dateTime('completed_at')->nullable();
             $table->timestamps();
         });

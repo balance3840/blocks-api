@@ -20,6 +20,7 @@ class CreateGroupsTable extends Migration
             $table->integer('grade');
             $table->integer('level');
             $table->foreignId('stage_id')->constrained();
+            $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
         });
     }

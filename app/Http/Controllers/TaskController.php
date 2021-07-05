@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\Validators\TaskValidator;
+use App\UserGroup;
+use App\TaskResult;
 use Illuminate\Database\Eloquent\Builder;
 
 class TaskController extends Controller
@@ -97,6 +99,15 @@ class TaskController extends Controller
 
         try {
             $task->save();
+            $groupUsers = UserGroup::where('group_id', $task->group_id)->get();
+            $taskResults = [];
+            foreach ($groupUsers as $groupUser) {
+                $taskResult = [];
+                $taskResult['task_id'] = $task->id;
+                $taskResult['user_id'] = $groupUser->user_id;
+                $taskResults[] = $taskResult;
+            }
+            TaskResult::insert($taskResults);
         } catch (\Exception $e) {
             Log::error("Error creating task. ".$e);
             return $this->responseError("There was an error creating the task", 500);
@@ -159,5 +170,12 @@ class TaskController extends Controller
         }
 
         return $this->responseSuccess($task);
+    }
+
+    public function myStudentsTasks() {
+        $user = Auth::user();
+        $tasks = Task::where('created_by', $user->id)->pluck('id')->toArray();
+        $taskResults = TaskResult::whereIn('task_id', $tasks)->get();
+        return $this->responseSuccess($taskResults);
     }
 }
