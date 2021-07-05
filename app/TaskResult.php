@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TaskResult extends Model
 {
 
-    protected $with = ['status'];
+    protected $with = ['status', 'task', 'user'];
 
     protected $table = 'tasks_result';
 
@@ -30,6 +30,16 @@ class TaskResult extends Model
     public function status()
     {
         return $this->hasOne('App\Status', 'id', 'status_id');
+    }
+
+    public function task()
+    {
+        return $this->hasOne('App\Task', 'id', 'task_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne('App\User', 'id', 'user_id');
     }
 
 }
