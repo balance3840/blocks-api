@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: ./.docker/Dockerfile
     container_name: blocks-php
-    tty: true
     working_dir: /var/www/blocks-api
     volumes:
       - ./:/var/www/blocks-api
@@ -18,7 +17,6 @@ services:
   webserver:
     image: nginx:1.20
     container_name: blocks-api-webserver
-    tty: true
     ports:
       - "8080:80"
     volumes:
@@ -30,15 +28,15 @@ services:
   db:
     image: mysql:5.7
     container_name: blocks-db
-    tty: true
     ports:
-      - "33066:3306"
+      - "3006:3306"
     environment:
       MYSQL_DATABASE: blocks
       MYSQL_ROOT_PASSWORD: abc123
     volumes:
       - blocks-data:/var/lib/mysql/
       - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./.docker/mysql/blocks.sql:/backups/blocks.sql
     networks:
       - blocks-network
 
