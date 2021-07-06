@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.7.34, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
 -- Host: localhost    Database: blocks
 -- ------------------------------------------------------
--- Server version       5.7.34-log
+-- Server version	5.7.34-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -48,7 +48,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `groups` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -56,6 +56,7 @@ CREATE TABLE `groups` (
   `grade` int(11) NOT NULL,
   `level` int(11) NOT NULL,
   `stage_id` bigint(20) unsigned NOT NULL,
+  `created_by` bigint(20) unsigned DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -70,7 +71,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'Grupo de prueba','Descripcion grupo de prueba',1,1,1,'2021-06-30 19:55:30','2021-06-30 19:55:30'),(2,'Grupo de prueba 2','desc Grupo de prueba 2',1,1,1,'2021-06-30 19:56:20','2021-06-30 19:56:20'),(3,'Grupo de prueba 3','desc Grupo de prueba 3',1,1,2,'2021-06-30 19:56:34','2021-06-30 19:56:34'),(4,'Tarea de ejemplo','sdfsdfsf',4,1,1,'2021-07-02 10:02:34','2021-07-02 10:02:34');
+INSERT INTO `groups` VALUES (1,'Grupo de prueba','Descripcion grupo de prueba',1,1,1,2,'2021-06-30 19:55:30','2021-06-30 19:55:30'),(2,'Grupo de prueba 2','desc Grupo de prueba 2',1,1,1,2,'2021-06-30 19:56:20','2021-06-30 19:56:20'),(3,'Grupo de prueba 3','desc Grupo de prueba 3',1,1,2,2,'2021-06-30 19:56:34','2021-06-30 19:56:34'),(4,'Tarea de ejemplo','sdfsdfsf',4,1,1,2,'2021-07-02 10:02:34','2021-07-02 10:02:34');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +81,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `institutes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `institutes` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -109,13 +110,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +125,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2019_08_19_000000_create_failed_jobs_table',1),(2,'2019_12_14_000001_create_personal_access_tokens_table',1),(3,'2020_07_08_160116_create_roles_table',1),(4,'2020_07_08_161725_create_institutes_table',1),(6,'2020_07_09_162818_create_statuses_table',1),(7,'2020_07_09_162942_create_stages_table',1),(8,'2020_07_09_163030_create_groups_table',1),(9,'2020_07_09_163247_create_user_groups_table',1),(11,'2020_07_09_163708_create_tasks_result_table',1),(12,'2020_07_09_163408_create_tasks_table',2),(13,'2020_07_09_000000_create_users_table',3);
+INSERT INTO `migrations` VALUES (1,'2019_08_19_000000_create_failed_jobs_table',1),(2,'2019_12_14_000001_create_personal_access_tokens_table',1),(3,'2020_07_08_160116_create_roles_table',1),(4,'2020_07_08_161725_create_institutes_table',1),(6,'2020_07_09_162818_create_statuses_table',1),(7,'2020_07_09_162942_create_stages_table',1),(8,'2020_07_09_163030_create_groups_table',1),(9,'2020_07_09_163247_create_user_groups_table',1),(12,'2020_07_09_163408_create_tasks_table',2),(13,'2020_07_09_000000_create_users_table',3),(17,'2020_07_09_163708_create_tasks_result_table',4);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +135,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `personal_access_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -148,7 +149,7 @@ CREATE TABLE `personal_access_tokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +158,7 @@ CREATE TABLE `personal_access_tokens` (
 
 LOCK TABLES `personal_access_tokens` WRITE;
 /*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
-INSERT INTO `personal_access_tokens` VALUES (4,'App\\User',2,'auth_token','ef12333518c9a4a350112560e057aee49f501fd1c9e328a1716df24a4df838ee','[\"user:create\",\"user:mine:list\",\"user:mine:view\",\"user:mine:edit\",\"user:mine:delete\",\"user:others:list\",\"user:others:view\",\"user:others:edit\",\"user:others:delete\",\"group:create\",\"group:mine:list\",\"group:mine:view\",\"group:mine:edit\",\"group:mine:delete\",\"group:members:list\",\"group:tasks:list\",\"group:others:list\",\"group:others:view\",\"group:others:edit\",\"group:members:add\",\"group:others:delete\",\"group:others:members:list\",\"group:others:tasks:list\",\"group:others:members:add\",\"task:create\",\"task:mine:list\",\"task:mine:view\",\"task:mine:edit\",\"task:mine:delete\",\"task:others:list\",\"task:others:view\",\"task:others:edit\",\"task:others:delete\"]','2021-07-02 10:06:11','2021-06-30 19:48:25','2021-07-02 10:06:11');
+INSERT INTO `personal_access_tokens` VALUES (8,'App\\User',2,'auth_token','ec920068f683eea494210a4f63fa9bd6610456ac9653fbdbf22eb88c28f21951','[\"user:create\",\"user:mine:list\",\"user:mine:view\",\"user:mine:edit\",\"user:mine:delete\",\"user:others:list\",\"user:others:view\",\"user:others:edit\",\"user:others:delete\",\"group:create\",\"group:mine:list\",\"group:mine:view\",\"group:mine:edit\",\"group:mine:delete\",\"group:members:list\",\"group:tasks:list\",\"group:others:list\",\"group:others:view\",\"group:others:edit\",\"group:members:add\",\"group:others:delete\",\"group:others:members:list\",\"group:others:tasks:list\",\"group:others:members:add\",\"task:create\",\"task:mine:list\",\"task:mine:view\",\"task:mine:edit\",\"task:mine:delete\",\"task:others:list\",\"task:others:view\",\"task:others:edit\",\"task:others:delete\"]','2021-07-05 20:50:24','2021-07-05 17:04:40','2021-07-05 20:50:24');
 /*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +168,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roles` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -194,7 +195,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `stages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stages` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -221,7 +222,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `statuses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `statuses` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -248,7 +249,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tasks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tasks` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -267,7 +268,7 @@ CREATE TABLE `tasks` (
   CONSTRAINT `tasks_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
   CONSTRAINT `tasks_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `tasks_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +277,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (1,'Tarea 1','Tarea 1','Esta es la tarea 1',3,1,2,NULL,'2021-06-30 20:18:53','2021-06-30 20:18:53');
+INSERT INTO `tasks` VALUES (20,'Tarea de API','Grupo de API','Description grupo de API',3,1,2,'2021-07-05 00:00:00','2021-07-05 19:54:49','2021-07-05 19:54:49');
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,26 +287,25 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tasks_result`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tasks_result` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `task_id` bigint(20) unsigned NOT NULL,
   `user_id` bigint(20) unsigned NOT NULL,
+  `status_id` bigint(20) unsigned NOT NULL DEFAULT '1',
   `video` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `comment_user` bigint(20) unsigned NOT NULL,
-  `code` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` text COLLATE utf8mb4_unicode_ci,
   `completed_at` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `tasks_result_task_id_foreign` (`task_id`),
   KEY `tasks_result_user_id_foreign` (`user_id`),
-  KEY `tasks_result_comment_user_foreign` (`comment_user`),
-  CONSTRAINT `tasks_result_comment_user_foreign` FOREIGN KEY (`comment_user`) REFERENCES `users` (`id`),
+  KEY `tasks_result_status_id_foreign` (`status_id`),
+  CONSTRAINT `tasks_result_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`),
   CONSTRAINT `tasks_result_task_id_foreign` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`),
   CONSTRAINT `tasks_result_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,6 +314,7 @@ CREATE TABLE `tasks_result` (
 
 LOCK TABLES `tasks_result` WRITE;
 /*!40000 ALTER TABLE `tasks_result` DISABLE KEYS */;
+INSERT INTO `tasks_result` VALUES (1,20,2,1,NULL,NULL,NULL,NULL,NULL),(2,20,3,1,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tasks_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +324,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_groups` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL,
@@ -335,7 +336,7 @@ CREATE TABLE `user_groups` (
   KEY `user_groups_group_id_foreign` (`group_id`),
   CONSTRAINT `user_groups_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `user_groups_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,7 +345,7 @@ CREATE TABLE `user_groups` (
 
 LOCK TABLES `user_groups` WRITE;
 /*!40000 ALTER TABLE `user_groups` DISABLE KEYS */;
-INSERT INTO `user_groups` VALUES (1,2,1,'2021-06-30 19:55:30','2021-06-30 19:55:30'),(2,2,2,'2021-06-30 19:56:20','2021-06-30 19:56:20'),(5,2,3,'2021-07-02 10:00:30','2021-07-02 10:00:30'),(6,3,3,'2021-07-02 10:00:30','2021-07-02 10:00:30'),(7,2,4,'2021-07-02 10:02:34','2021-07-02 10:02:34');
+INSERT INTO `user_groups` VALUES (1,2,1,'2021-06-30 19:55:30','2021-06-30 19:55:30'),(2,2,2,'2021-06-30 19:56:20','2021-06-30 19:56:20'),(7,2,4,'2021-07-02 10:02:34','2021-07-02 10:02:34'),(8,2,3,'2021-07-05 19:42:57','2021-07-05 19:42:57'),(9,3,3,'2021-07-05 19:42:57','2021-07-05 19:42:57');
 /*!40000 ALTER TABLE `user_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -354,7 +355,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -385,7 +386,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (2,'Ramiro sdfs','Estrella','ramiro.estrellac@gmail.com','2021-05-17 09:58:54','$2y$12$m1rpSj2A8ugSzVnk3US/YOkQDWVl88y8OZ1.mQzczQCwBuvopYPjC',3,1,1,NULL,'2021-05-17 09:58:54','2021-07-02 10:00:40'),(3,'Antonio','Corporan','antonio.corporan@gmail.com',NULL,'$2y$12$knMqc0gexnYDolejy2toVuMFuRiJZ2T7XKu0Zs3RMlqrSaoD6fgGW',3,1,2,NULL,'2021-06-30 20:35:02','2021-06-30 20:35:02');
+INSERT INTO `users` VALUES (2,'Ramiro','Estrella','ramiro.estrellac@gmail.com','2021-05-17 09:58:54','$2y$12$m1rpSj2A8ugSzVnk3US/YOkQDWVl88y8OZ1.mQzczQCwBuvopYPjC',1,1,1,NULL,'2021-05-17 09:58:54','2021-07-05 20:50:23'),(3,'Antonio','Corporan','antonio.corporan@gmail.com',NULL,'$2y$12$knMqc0gexnYDolejy2toVuMFuRiJZ2T7XKu0Zs3RMlqrSaoD6fgGW',2,1,2,NULL,'2021-06-30 20:35:02','2021-06-30 20:35:02');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -398,4 +399,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-02 12:23:33
+-- Dump completed on 2021-07-06 20:05:12
