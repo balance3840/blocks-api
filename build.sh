@@ -8,4 +8,4 @@ docker exec blocks-php composer install
 echo "Generando clave de artisan"
 docker exec blocks-php php artisan key:generate
 echo "Importando la base de datos"
-docker exec blocks-db mysql -u root -pabc123 blocks < /backups/blocks.sql
+docker exec blocks-db sh -c "mysql -u root -pabc123 blocks < /backups/blocks.sql"
