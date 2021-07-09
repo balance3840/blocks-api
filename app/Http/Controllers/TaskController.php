@@ -182,6 +182,6 @@ class TaskController extends Controller
 
     public function getComments(int $taskId) {
         $comments = TaskComment::where('task_id', $taskId)->get();
-        return $comments;
+        return $this->responseSuccess($comments);
     }
 }
