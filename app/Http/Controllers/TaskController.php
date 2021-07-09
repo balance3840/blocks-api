@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Traits\Validators\TaskValidator;
 use App\UserGroup;
 use App\TaskResult;
+use App\TaskComment;
 use Illuminate\Database\Eloquent\Builder;
 
 class TaskController extends Controller
@@ -177,5 +178,10 @@ class TaskController extends Controller
         $tasks = Task::where('created_by', $user->id)->pluck('id')->toArray();
         $taskResults = TaskResult::whereIn('task_id', $tasks)->get();
         return $this->responseSuccess($taskResults);
+    }
+
+    public function getComments(int $taskId) {
+        $comments = TaskComment::where('task_id', $taskId)->get();
+        return $comments;
     }
 }
