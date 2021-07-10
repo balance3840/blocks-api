@@ -67,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', 'TaskController@show');
         Route::get('/{id}/comments', 'TaskController@getComments');
         Route::post('/{id}/comments', 'TaskController@saveComment');
+        Route::delete('/{id}/comments/{commentId}', 'TaskController@deleteComment');
         Route::put('/{id}', 'TaskController@update');
     });
 

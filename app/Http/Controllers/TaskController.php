@@ -200,6 +200,19 @@ class TaskController extends Controller
             return $this->responseError("There was an error creating the comment", 500);
         }
 
-        return $this->responseSuccess($comment);
+        return $this->responseSuccess($comment, 201);
+    }
+
+    public function deleteComment(int $id, int $commentId) {
+        try {
+            TaskComment::where('id', $commentId)
+            ->where('task_id', $id)
+            ->delete();
+        } catch(\Exception $e) {
+            Log::error("Error deleting task comment ".$commentId." ".$e);
+            return $this->responseError("There was an error deleting the comment", 500);
+        }
+
+        return $this->responseSuccess([]);
     }
 }
