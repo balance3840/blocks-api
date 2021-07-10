@@ -203,6 +203,24 @@ class TaskController extends Controller
         return $this->responseSuccess($comment, 201);
     }
 
+    public function editComment(Request $request, int $id, int $commentId) {
+        $user = Auth::user();
+
+        try {
+            $comment = TaskComment::where('id', $commentId)
+                ->where('task_id', $id)
+                ->where('user_id', $user->id)
+                ->first();
+            $comment->comment = $request->get('comment');
+            $comment->save();
+        } catch(\Exception $e) {
+            Log::error("Error editing comment ".$id." ".$e);
+            return $this->responseError("There was an error editing the comment", 500);
+        }
+
+        return $this->responseSuccess($comment, 200);
+    }
+
     public function deleteComment(int $id, int $commentId) {
         try {
             TaskComment::where('id', $commentId)
