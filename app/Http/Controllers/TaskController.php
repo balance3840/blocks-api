@@ -205,7 +205,6 @@ class TaskController extends Controller
 
     public function editComment(Request $request, int $id, int $commentId) {
         $user = Auth::user();
-
         try {
             $comment = TaskComment::where('id', $commentId)
                 ->where('task_id', $id)
