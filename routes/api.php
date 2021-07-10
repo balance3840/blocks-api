@@ -66,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/my-students', 'TaskController@myStudentsTasks');
         Route::get('/{id}', 'TaskController@show');
         Route::get('/{id}/comments', 'TaskController@getComments');
+        Route::post('/{id}/comments', 'TaskController@saveComment');
         Route::put('/{id}', 'TaskController@update');
     });
 

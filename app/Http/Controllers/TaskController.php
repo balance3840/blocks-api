@@ -184,4 +184,22 @@ class TaskController extends Controller
         $comments = TaskComment::where('task_id', $taskId)->get();
         return $this->responseSuccess($comments);
     }
+
+    public function saveComment(Request $request, int $taskId) {
+        $user = Auth::user();
+
+        $comment = new TaskComment;
+        $comment->user_id = $user->id;
+        $comment->task_id = $taskId;
+        $comment->comment = $request->get('comment');
+
+        try {
+            $comment->save();
+        } catch(\Exception $e) {
+            Log::error("Error creating comment ".$taskId." ".$e);
+            return $this->responseError("There was an error creating the comment", 500);
+        }
+
+        return $this->responseSuccess($comment);
+    }
 }
