@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: blocks
 -- ------------------------------------------------------
@@ -116,7 +116,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2019_08_19_000000_create_failed_jobs_table',1),(2,'2019_12_14_000001_create_personal_access_tokens_table',1),(3,'2020_07_08_160116_create_roles_table',1),(4,'2020_07_08_161725_create_institutes_table',1),(6,'2020_07_09_162818_create_statuses_table',1),(7,'2020_07_09_162942_create_stages_table',1),(8,'2020_07_09_163030_create_groups_table',1),(9,'2020_07_09_163247_create_user_groups_table',1),(12,'2020_07_09_163408_create_tasks_table',2),(13,'2020_07_09_000000_create_users_table',3),(17,'2020_07_09_163708_create_tasks_result_table',4);
+INSERT INTO `migrations` VALUES (1,'2019_08_19_000000_create_failed_jobs_table',1),(2,'2019_12_14_000001_create_personal_access_tokens_table',1),(3,'2020_07_08_160116_create_roles_table',1),(4,'2020_07_08_161725_create_institutes_table',1),(6,'2020_07_09_162818_create_statuses_table',1),(7,'2020_07_09_162942_create_stages_table',1),(8,'2020_07_09_163030_create_groups_table',1),(9,'2020_07_09_163247_create_user_groups_table',1),(12,'2020_07_09_163408_create_tasks_table',2),(13,'2020_07_09_000000_create_users_table',3),(17,'2020_07_09_163708_create_tasks_result_table',4),(18,'2021_07_09_183201_task_comments',5);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,7 +149,7 @@ CREATE TABLE `personal_access_tokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +158,7 @@ CREATE TABLE `personal_access_tokens` (
 
 LOCK TABLES `personal_access_tokens` WRITE;
 /*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
-INSERT INTO `personal_access_tokens` VALUES (8,'App\\User',2,'auth_token','ec920068f683eea494210a4f63fa9bd6610456ac9653fbdbf22eb88c28f21951','[\"user:create\",\"user:mine:list\",\"user:mine:view\",\"user:mine:edit\",\"user:mine:delete\",\"user:others:list\",\"user:others:view\",\"user:others:edit\",\"user:others:delete\",\"group:create\",\"group:mine:list\",\"group:mine:view\",\"group:mine:edit\",\"group:mine:delete\",\"group:members:list\",\"group:tasks:list\",\"group:others:list\",\"group:others:view\",\"group:others:edit\",\"group:members:add\",\"group:others:delete\",\"group:others:members:list\",\"group:others:tasks:list\",\"group:others:members:add\",\"task:create\",\"task:mine:list\",\"task:mine:view\",\"task:mine:edit\",\"task:mine:delete\",\"task:others:list\",\"task:others:view\",\"task:others:edit\",\"task:others:delete\"]','2021-07-05 20:50:24','2021-07-05 17:04:40','2021-07-05 20:50:24');
+INSERT INTO `personal_access_tokens` VALUES (8,'App\\User',2,'auth_token','ec920068f683eea494210a4f63fa9bd6610456ac9653fbdbf22eb88c28f21951','[\"user:create\",\"user:mine:list\",\"user:mine:view\",\"user:mine:edit\",\"user:mine:delete\",\"user:others:list\",\"user:others:view\",\"user:others:edit\",\"user:others:delete\",\"group:create\",\"group:mine:list\",\"group:mine:view\",\"group:mine:edit\",\"group:mine:delete\",\"group:members:list\",\"group:tasks:list\",\"group:others:list\",\"group:others:view\",\"group:others:edit\",\"group:members:add\",\"group:others:delete\",\"group:others:members:list\",\"group:others:tasks:list\",\"group:others:members:add\",\"task:create\",\"task:mine:list\",\"task:mine:view\",\"task:mine:edit\",\"task:mine:delete\",\"task:others:list\",\"task:others:view\",\"task:others:edit\",\"task:others:delete\"]','2021-07-05 20:50:24','2021-07-05 17:04:40','2021-07-05 20:50:24'),(9,'App\\User',2,'auth_token','53e9b93c538ca986d7fc26142c5e401668c4796cb0a623c0acae7cc2ffb0bb38','[\"user:create\",\"user:mine:list\",\"user:mine:view\",\"user:mine:edit\",\"user:mine:delete\",\"user:others:list\",\"user:others:view\",\"user:others:edit\",\"user:others:delete\",\"group:create\",\"group:mine:list\",\"group:mine:view\",\"group:mine:edit\",\"group:mine:delete\",\"group:members:list\",\"group:tasks:list\",\"group:others:list\",\"group:others:view\",\"group:others:edit\",\"group:members:add\",\"group:others:delete\",\"group:others:members:list\",\"group:others:tasks:list\",\"group:others:members:add\",\"task:create\",\"task:mine:list\",\"task:mine:view\",\"task:mine:edit\",\"task:mine:delete\",\"task:others:list\",\"task:others:view\",\"task:others:edit\",\"task:others:delete\"]','2021-07-12 17:07:16','2021-07-06 18:38:42','2021-07-12 17:07:16'),(10,'App\\User',2,'auth_token','3c47639461caaee5b85d445533fffcb9eaeff3f225aaa73efa7b91f3d3ce0b10','[\"user:create\",\"user:mine:list\",\"user:mine:view\",\"user:mine:edit\",\"user:mine:delete\",\"user:others:list\",\"user:others:view\",\"user:others:edit\",\"user:others:delete\",\"group:create\",\"group:mine:list\",\"group:mine:view\",\"group:mine:edit\",\"group:mine:delete\",\"group:members:list\",\"group:tasks:list\",\"group:others:list\",\"group:others:view\",\"group:others:edit\",\"group:members:add\",\"group:others:delete\",\"group:others:members:list\",\"group:others:tasks:list\",\"group:others:members:add\",\"task:create\",\"task:mine:list\",\"task:mine:view\",\"task:mine:edit\",\"task:mine:delete\",\"task:others:list\",\"task:others:view\",\"task:others:edit\",\"task:others:delete\"]','2021-07-09 20:14:06','2021-07-09 20:13:13','2021-07-09 20:14:06');
 /*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,6 +244,38 @@ INSERT INTO `statuses` VALUES (1,'Pendiente','Tarea pendiente','2021-06-30 00:00
 UNLOCK TABLES;
 
 --
+-- Table structure for table `task_comments`
+--
+
+DROP TABLE IF EXISTS `task_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `task_comments` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `task_id` bigint(20) unsigned NOT NULL,
+  `comment` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `task_comments_user_id_foreign` (`user_id`),
+  KEY `task_comments_task_id_foreign` (`task_id`),
+  CONSTRAINT `task_comments_task_id_foreign` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`),
+  CONSTRAINT `task_comments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `task_comments`
+--
+
+LOCK TABLES `task_comments` WRITE;
+/*!40000 ALTER TABLE `task_comments` DISABLE KEYS */;
+INSERT INTO `task_comments` VALUES (1,2,20,'Comentario de la tarea 20 updated','2021-07-10 08:00:20','2021-07-10 12:34:13'),(2,3,20,'Comentario de la tarea 20 segundo','2021-07-10 10:31:54',NULL);
+/*!40000 ALTER TABLE `task_comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tasks`
 --
 
@@ -268,7 +300,7 @@ CREATE TABLE `tasks` (
   CONSTRAINT `tasks_created_by_foreign` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
   CONSTRAINT `tasks_group_id_foreign` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `tasks_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,7 +309,7 @@ CREATE TABLE `tasks` (
 
 LOCK TABLES `tasks` WRITE;
 /*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
-INSERT INTO `tasks` VALUES (20,'Tarea de API','Grupo de API','Description grupo de API',3,1,2,'2021-07-05 00:00:00','2021-07-05 19:54:49','2021-07-05 19:54:49');
+INSERT INTO `tasks` VALUES (20,'Tarea de API','Grupo de API','Description grupo de API',3,1,2,'2021-07-05 00:00:00','2021-07-05 19:54:49','2021-07-05 19:54:49'),(21,'Tarea de grupo 2','Tarea de grupo 2','Crear una tarea',2,1,2,NULL,'2021-07-10 10:07:09','2021-07-10 10:07:09');
 /*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +337,7 @@ CREATE TABLE `tasks_result` (
   CONSTRAINT `tasks_result_status_id_foreign` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`),
   CONSTRAINT `tasks_result_task_id_foreign` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`),
   CONSTRAINT `tasks_result_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +346,7 @@ CREATE TABLE `tasks_result` (
 
 LOCK TABLES `tasks_result` WRITE;
 /*!40000 ALTER TABLE `tasks_result` DISABLE KEYS */;
-INSERT INTO `tasks_result` VALUES (1,20,2,1,NULL,NULL,NULL,NULL,NULL),(2,20,3,1,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `tasks_result` VALUES (1,20,2,1,NULL,NULL,NULL,NULL,NULL),(2,20,3,1,NULL,NULL,NULL,NULL,NULL),(3,21,2,1,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tasks_result` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,4 +431,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-06 20:05:12
+-- Dump completed on 2021-07-12 22:29:41
