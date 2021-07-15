@@ -75,8 +75,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', 'UserController@index');
         Route::post('/', 'UserController@create');
+        Route::post('/change-password', 'UserController@changePassword');
         Route::get('/{id}', 'UserController@show');
         Route::put('/{id}', 'UserController@update');
     });
+
+    Route::post('/logout', 'UserController@logout')->name('logout');
 
 });

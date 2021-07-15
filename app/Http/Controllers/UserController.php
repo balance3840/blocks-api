@@ -19,6 +19,7 @@ class UserController extends Controller
     private String $validatorCreateMessage = "Name, lastname, email, password, role_id and institute_id are required.";
     private String $notFoundMessage = "The requested user does not exist.";
     private String $notPermissions = "This user does not have the permissions to perform the requested action.";
+    private String $notLogout = "There was an error while trying to logging the user out";
 
     public function index(Request $request)
     {
@@ -151,6 +152,32 @@ class UserController extends Controller
         return $this->responseSuccess($user);
     }
 
+    public function changePassword(Request $request) {
+        $user = Auth::user();
+        $password = $request->get('password');
+        $newPassword = $request->get('newPassword');
+        $repeatNewPassword = $request->get('repeatNewPassword');
+
+        if(!CustomHash::check($password, $user->password)) {
+            return $this->responseError("Credentials do not match.", 401);
+        }
+
+        if($newPassword !== $repeatNewPassword) {
+            return $this->responseError("New password do not match", 401);   
+        }
+
+        try {
+            $user->password = $password = CustomHash::make($newPassword);
+            $user->save();
+        } catch(\Exception $e) {
+            Log::error("Error changing password ".$e);
+            return $this->responseError("Error changing password", 500);
+        }
+
+        return $this->responseSuccess('', 200);
+
+    }
+
     public function login(Request $request) {
 
         $email = $request->get('email');
@@ -181,6 +208,17 @@ class UserController extends Controller
 
         return $this->responseSuccess($data, 200);
 
+    }
+
+    public function logout() {
+        try {
+            $user = Auth::user();
+            $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+            return $this->responseSuccess('', 200);
+        } catch(\Exception $e) {
+            Log::error("Error logging user out ".$e);
+            return $this->responseError($this->notLogout, 500);
+        }
     }
 
 }
