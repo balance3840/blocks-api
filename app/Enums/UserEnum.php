@@ -76,6 +76,7 @@ class UserEnum extends Enum {
         'group:mine:list',
         'group:mine:view',
         'group:tasks:list',
+        'group:members:list',
         //task
         'task:mine:list',
         'task:mine:view',
