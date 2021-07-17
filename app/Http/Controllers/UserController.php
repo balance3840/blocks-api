@@ -126,7 +126,7 @@ class UserController extends Controller
             }
         }
 
-        $validator = $this->validateUser($request->all());
+        $validator = $this->validateUser($request->all(), $user->id);
 
         if ($validator->fails()) {
             return $this->responseError($this->validatorMessage);

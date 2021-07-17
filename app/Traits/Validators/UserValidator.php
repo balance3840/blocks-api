@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Validator;
 
 trait UserValidator
 {
-    public static function validateUser(array $params)
+    public static function validateUser(array $params, int $userId)
     {
         return Validator::make($params, [
             'name' => 'required|max:255',
             'lastname' => 'required|max:255',
-            'email' => 'email|unique:users|max:255',
+            'email' => 'email|unique:users,email,'.$userId.'|max:255',
             'role_id' => 'required|integer',
             'institute_id' => 'required|integer'
         ]);
