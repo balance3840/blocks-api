@@ -1,0 +1,24 @@
+name: Deploy to production.
+
+on:
+  push:
+    branches: [master]
+
+env:
+  IMAGE_NAME: blocks-php
+  API_IMAGE_NAME: blocks-api
+  REGISTRY: repo.treescale.com/tfmblocks
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Building image
+      run: |
+        docker login ${{ env.REGISTRY }} --username ${{ secrets.REGISTRY_USERNAME }} --password ${{ secrets.REGISTRY_PASSWORD }}
+        docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest -f ./.docker/Dockerfile.production .
+        docker build -t ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}:latest .
+        docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        docker push ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}
